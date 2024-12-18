@@ -22,6 +22,10 @@ public:
     void endGame();
     int getCurrentPlayer() const;
     void printGrid() const;
+    bool isValidMove(int row1, int col1, int row2, int col2) const;
+    void flipAndRevealCards(int row1, int col1, int row2, int col2);
+    bool checkGameOver() const;
+    void printGridAllVisibleOnce();
 };
 
 #endif
