@@ -18,7 +18,6 @@ Card::Card(bool visible) {
     this->visible = visible;
 }
 Card::~Card() {
-    cout << "Card destructor" << endl;
 }
 void Card::display() {
     if (visible) {
@@ -44,7 +43,6 @@ StandardCard::StandardCard(int points, bool visible) : Card(visible) {
     this->points = points;
 }
 StandardCard::~StandardCard() {
-    cout << "StandardCard destructor" << endl;
 }
 void StandardCard::display() {
     string visibleStr = this->isVisible() ? "visible" : "not visible";
@@ -68,7 +66,6 @@ BonusCard::BonusCard(int bonusPoints, bool visible) : Card(visible) {
     this->bonusPoints = bonusPoints;
 }
 BonusCard::~BonusCard() {
-    cout << "BonusCard destructor" << endl;
 }
 void BonusCard::display() {
     string visibleStr = this->isVisible() ? "visible" : "not visible";
@@ -93,7 +90,6 @@ PenaltyCard::PenaltyCard(int penaltyPoints, bool visible) : Card(visible) {
     this->penaltyPoints = penaltyPoints;
 }
 PenaltyCard::~PenaltyCard() {
-    cout << "PenaltyCard destructor" << endl;
 }
 void PenaltyCard::display() {
     string visibleStr = this->isVisible() ? "visible" : "not visible";
@@ -127,7 +123,6 @@ Deck::~Deck() {
         delete cards[i]; // Delete each Card
     }
     delete[] cards; // Delete the array of Card pointers
-    cout << "Deck destructor" << endl;
 }
 
 void Deck::shuffle() {
@@ -193,7 +188,6 @@ Game::~Game() {
     delete deck;
     delete player1;
     delete player2;
-    cout << "Game destructor" << endl;
 }
 
 void Game::initializeGame(Player* player1, Player* player2) {
@@ -222,6 +216,7 @@ void Game::initializeGame(Player* player1, Player* player2) {
     deck->setTotalCards(index);
 
     deck->shuffle();
+    printGrid();
 }
 
 void Game::startGame() {
@@ -267,7 +262,6 @@ Player::Player(string name) {
     score = 0;
 }
 Player::~Player() {
-    cout << "Player destructor" << endl;
 }
 void Player::setName(string name) {
     this->name = name;
@@ -287,41 +281,6 @@ void Player::displayScore() {
 
 //////////////////////// main.cpp ////////////////////////
 ///
-void testGameInitialization(Game& game) {
-    cout << "Testing game initialization..." << endl;
-    game.printGrid();
-    cout << "Game initialized successfully." << endl;
-}
-
-void testPlayerSwitching(Game& game, Player* player1, Player* player2) {
-    cout << "Testing player switching..." << endl;
-    game.switchPlayer();
-    cout << "Current player: " << (game.getCurrentPlayer() == 1 ? player1->getName() : player2->getName()) << endl;
-    game.switchPlayer();
-    cout << "Current player: " << (game.getCurrentPlayer() == 1 ? player1->getName() : player2->getName()) << endl;
-    cout << "Player switching tested successfully." << endl;
-}
-
-void testPlayerScores(Player* player1, Player* player2) {
-    cout << "Testing player scores..." << endl;
-    player1->setScore(10);
-    player2->setScore(20);
-    player1->displayScore();
-    player2->displayScore();
-    cout << "Player scores tested successfully." << endl;
-}
-
-void testGameEnd(Game& game) {
-    cout << "Testing game end..." << endl;
-    game.endGame();
-    cout << "Game ended successfully." << endl;
-}
-
-void testCardDisplay(Card* card) {
-    cout << "Testing card display..." << endl;
-    card->display();
-    cout << "Card display tested successfully." << endl;
-}
 
 int main() {
     // Create players
@@ -331,33 +290,6 @@ int main() {
     // Initialize game
     Game game;
     game.initializeGame(player1, player2);
-
-    // Test game initialization
-    testGameInitialization(game);
-
-    // Test player switching
-    testPlayerSwitching(game, player1, player2);
-
-    // Test player scores
-    testPlayerScores(player1, player2);
-
-    // Test card display
-    Card* standardCard = new StandardCard(5, true);
-    Card* bonusCard = new BonusCard(3, true);
-    Card* penaltyCard = new PenaltyCard(-2, true);
-    testCardDisplay(standardCard);
-    testCardDisplay(bonusCard);
-    testCardDisplay(penaltyCard);
-
-    // Test game end
-    testGameEnd(game);
-
-    // Clean up
-    delete player1;
-    delete player2;
-    delete standardCard;
-    delete bonusCard;
-    delete penaltyCard;
 
     return 0;
 }
